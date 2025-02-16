@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&display=swap');
+@import "tailwindcss";
+
+body {
+  font-family: "Plus Jakarta Sans", serif;
+}
+
+@theme {
+  --color-white: #ffffff;
+  --color-primary: #1E3A8A;
+  --color-secondary: #3B82F6;
+  --color-accent: #60A5FA;
+  --color-background: #F0F9FF;
+  --color-text: #1E293B;
+  --font-roboto : "Roboto Serif", serif;
+}
+
+@layer components {
+  .input {
+    @apply flex items-center rounded-full bg-white p-4 w-full placeholder:italic placeholder:text-text/30 h-12 border border-text/30 outline-none;
+  }
+
+
+  .input-field {
+    @apply w-full bg-transparent outline-none text-text;
+  }
+
+  .label {
+    @apply block text-sm font-semibold text-text mb-1;
+  }
+
+  .button-primary {
+    @apply bg-primary text-white font-bold py-2 px-4 rounded-full hover:bg-secondary transition w-full h-12 mt-4 cursor-pointer;
+  }
+}
