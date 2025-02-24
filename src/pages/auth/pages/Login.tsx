@@ -4,6 +4,7 @@ import { VscEye, VscEyeClosed } from "react-icons/vsc";
 import { useState } from "react";
 import { useLogin } from "../auth.api";
 import { useForm } from "react-hook-form";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,8 +15,7 @@ export function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: { email: "", password: "" },
-    mode: "onBlur",
+    defaultValues: { email: "", password: "" }
   });
 
   const onSubmit = (data: { email: string; password: string }) => {
@@ -46,7 +46,7 @@ export function Login() {
               },
             })}
           />
-          {errors.email && <p className="text-faulty italic text-xs">{errors.email.message}</p>}
+          {errors.email && <p className="text-red-500 italic text-xs">{errors.email.message}</p>}
         </>
         <>
           <label htmlFor="password" className="label">
@@ -68,17 +68,17 @@ export function Login() {
               {showPassword ? <VscEyeClosed className="text-2xl" /> : <VscEye className="text-2xl" />}
             </button>
           </div>
-          {errors.password && <p className="text-faulty italic text-xs">{errors.password.message}</p>}
+          {errors.password && <p className="text-red-500 italic text-xs">{errors.password.message}</p>}
         </>
-        <Link to="/forgot-password" className="text-sm font-semibold ml-auto text-primary">
+        <Link to="/auth/password-reset/request" className="text-sm font-semibold ml-auto text-primary">
           Forgot Password
         </Link>
         <button type="submit" className="button-primary" disabled={isPending}>
-          {isPending ? "Processing..." : "Login"}
+          {isPending ? <AiOutlineLoading3Quarters className="text-xl animate-spin" /> : "Login"}
         </button>
       </form>
       <p className="font-semibold">
-        Don't have an account? <Link to="/signup" className="text-primary">Sign Up</Link>
+        Don't have an account? <Link to="/auth/signup" className="text-primary">Sign Up</Link>
       </p>
     </AuthLayout>
   );

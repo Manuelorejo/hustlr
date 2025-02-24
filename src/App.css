@@ -31,6 +31,6 @@ body {
   }
 
   .button-primary {
-    @apply bg-primary text-white font-bold py-2 px-4 rounded-full hover:bg-secondary transition w-full h-12 mt-4 cursor-pointer;
+    @apply bg-primary text-white font-bold py-2 px-4 text-center flex items-center justify-center rounded-full hover:bg-secondary transition w-full h-12 mt-4 cursor-pointer;
   }
 }
