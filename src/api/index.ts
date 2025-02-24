@@ -1,12 +1,13 @@
 import axios from 'axios';
+import { AxiosError } from 'axios';
 
 // Create an Axios instance with default configs
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://api.example.com',
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true, // For cookies or tokens in headers
+  withCredentials: true,
 });
 
 // Request Interceptor
@@ -50,3 +51,13 @@ apiClient.interceptors.response.use(
 );
 
 export default apiClient;
+
+
+
+export const handleApiError = (error: unknown, defaultMessage: string) => {
+  if (error instanceof AxiosError) {
+    console.error(error.response?.data?.message || defaultMessage);
+    throw new Error(error.response?.data?.notification || defaultMessage);
+  }
+  throw new Error(defaultMessage);
+};
