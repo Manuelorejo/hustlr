@@ -1,14 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
-import { useAuthStore } from "./auth.store";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import apiClient, { handleApiError } from "../../api/index";
+import { useAuthStore } from "./auth.store";
 import { User } from "./auth.types";
-
 
 // 🔹 Sign Up Hook
 export const useSignUp = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   return useMutation({
     mutationFn: async (payload: User) => {
       try {
@@ -21,7 +20,7 @@ export const useSignUp = () => {
     },
     onSuccess: () => {
       toast.success("Account created successfully! Please log in.");
-      navigate("/login");
+      navigate("/auth/login");
     },
     onError: (error) => {
       toast.error(error.message || "Sign-up failed. Please try again.");
@@ -77,6 +76,51 @@ export const useLogout = () => {
     },
     onError: (error) => {
       toast.error(error.message || "Logout failed. Please try again.");
+    },
+  });
+};
+
+// 🔹 Password Reset Request Hook (Step 1 - Request Reset)
+export const useRequestPasswordReset = () => {
+  return useMutation({
+    mutationFn: async (email: string) => {
+      try {
+        const response = await apiClient.post("/auth/password-reset/request", { email });
+        return response.data;
+      } catch (error) {
+        handleApiError(error, "Failed to request password reset. Try again.");
+        throw error;
+      }
+    },
+    onSuccess: () => {
+      toast.success("Password reset email sent. Check your inbox.");
+    },
+    onError: (error) => {
+      toast.error(error.message || "Password reset request failed. Try again.");
+    },
+  });
+};
+
+// 🔹 Password Reset Hook (Step 2 - Reset Password)
+export const useResetPassword = () => {
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationFn: async (payload: { token: string; password: string; confirmPassword: string }) => {
+      try {
+        const response = await apiClient.post("/auth/password-reset/reset", payload);
+        return response.data;
+      } catch (error) {
+        handleApiError(error, "Failed to reset password. Try again.");
+        throw error;
+      }
+    },
+    onSuccess: () => {
+      toast.success("Password reset successful! You can now log in.");
+      navigate("/auth/login");
+    },
+    onError: (error) => {
+      toast.error(error.message || "Password reset failed. Try again.");
     },
   });
 };
