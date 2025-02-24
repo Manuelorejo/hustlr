@@ -18,12 +18,12 @@ export const useSignUp = () => {
         throw error;
       }
     },
-    onSuccess: () => {
-      toast.success("Account created successfully! Please log in.");
+    onSuccess: (response) => {
+      toast.success(response?.notification || "Account created successfully! Please log in.");
       navigate("/auth/login");
     },
     onError: (error) => {
-      toast.error(error.message || "Sign-up failed. Please try again.");
+      toast.error(error?.message || "Sign-up failed. Please try again.");
     },
   });
 };
@@ -45,11 +45,11 @@ export const useLogin = () => {
     },
     onSuccess: (response) => {
       setAuth(response?.data);
-      toast.success("Successful Login");
+      toast.success(response?.notification || "Successful Login");
       navigate("/");
     },
     onError: (error) => {
-      toast.error(error.message || "Login failed. Please try again.");
+      toast.error(error?.message || "Login failed. Please try again.");
     },
   });
 };
@@ -69,13 +69,13 @@ export const useLogout = () => {
         throw error;
       }
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
       removeAuth();
-      toast.success("Logged out successfully.");
+      toast.success(response?.notification || "Logged out successfully.");
       navigate("/auth/login");
     },
     onError: (error) => {
-      toast.error(error.message || "Logout failed. Please try again.");
+      toast.error(error?.message || "Logout failed. Please try again.");
     },
   });
 };
@@ -92,11 +92,11 @@ export const useRequestPasswordReset = () => {
         throw error;
       }
     },
-    onSuccess: () => {
-      toast.success("Password reset email sent. Check your inbox.");
+    onSuccess: (response) => {
+      toast.success(response?.notification || "Password reset email sent. Check your inbox.");
     },
     onError: (error) => {
-      toast.error(error.message || "Password reset request failed. Try again.");
+      toast.error(error?.message || "Password reset request failed. Try again.");
     },
   });
 };
@@ -115,12 +115,12 @@ export const useResetPassword = () => {
         throw error;
       }
     },
-    onSuccess: () => {
-      toast.success("Password reset successful! You can now log in.");
+    onSuccess: (response) => {
+      toast.success(response?.notification || "Password reset successful! You can now log in.");
       navigate("/auth/login");
     },
     onError: (error) => {
-      toast.error(error.message || "Password reset failed. Try again.");
+      toast.error(error?.message || "Password reset failed. Try again.");
     },
   });
 };
