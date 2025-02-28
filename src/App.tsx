@@ -9,23 +9,26 @@ import {
   ResetPassword,
 } from "./pages/auth/auth.index";
 import { Home } from "./pages/main/index";
-import { useGetProfile } from "./pages/auth/auth.api";
+import { useGetProfile } from "./pages/profile/profile.api";
 import LoadingScreen from "./components/LoadingScreen";
 import { useEffect } from "react";
 import { useAuthStore } from "./pages/auth/auth.store";
+import { useProfileStore } from "./pages/profile/profile.store";
 import { Bookmarks } from "./pages/bookmarks/bookmarks.index";
+import { Profile } from "./pages/profile/profile.index";
 import NotFound from "./components/NotFound";
+import { Search } from "./pages/search/search.index";
 
 const App: React.FC = () => {
   const { data: profile, isLoading, isSuccess, isError } = useGetProfile();
-    const setUserProfile = useAuthStore((state) => state.setUserProfile);
+    const setProfile = useProfileStore((state) => state.setProfile);
     const removeAuth = useAuthStore((state) => state.removeAuth)
 
   useEffect(() => {
     if (isSuccess && profile) {
-      setUserProfile(profile);
+      setProfile(profile);
     }
-  }, [isSuccess, profile, setUserProfile]);
+  }, [isSuccess, profile, setProfile]);
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -53,11 +56,13 @@ const App: React.FC = () => {
 
         {/* Public Routes (No authentication required) */}
         <Route path="/" element={<Home />} />
+        <Route path = "/search" element={<Search/>}/>
 
         
         {/* Protected Routes (Requires authentication) */}
         <Route element={<ProtectedRoute />}>
           <Route path="/bookmarks" element={<Bookmarks/>}/>
+          <Route path="/profile" element={<Profile/>}/>
         </Route>
         <Route path="*" element={<NotFound/>}/>
       </Routes>

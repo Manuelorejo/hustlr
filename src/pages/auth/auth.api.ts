@@ -1,9 +1,10 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import apiClient, { handleApiError } from "../../api/index";
 import { useAuthStore } from "./auth.store";
 import { User } from "./auth.types";
+import { useProfileStore } from "../profile/profile.store";
 
 // 🔹 Sign Up Hook
 export const useSignUp = () => {
@@ -32,6 +33,7 @@ export const useSignUp = () => {
 export const useLogin = () => {
   const { setAuth } = useAuthStore();
   const navigate = useNavigate();
+  const setProfile = useProfileStore((state) => state.setProfile);
 
   return useMutation({
     mutationFn: async (payload: { email: string; password: string }) => {
@@ -44,7 +46,8 @@ export const useLogin = () => {
       }
     },
     onSuccess: (response) => {
-      setAuth(response?.data);
+      setAuth(response?.data?.accessToken);
+      setProfile({firstName: response?.data?.firstName, lastName: response?.data?.lastName, email: response?.data?.email})
       toast.success(response?.notification || "Successful Login");
       navigate("/");
     },
@@ -125,22 +128,3 @@ export const useResetPassword = () => {
   });
 };
 
-
-
-export const useGetProfile = () => {
-  const accessToken = useAuthStore((state) => state.accessToken);
-
-  return useQuery<User, Error>({
-    queryKey: ["profile"],
-    queryFn: async () => {
-      try {
-        const response = await apiClient.get("/auth/profile");
-        return response.data?.data;
-      } catch (error) {
-        handleApiError(error, "Failed to fetch profile data.");
-        throw error;
-      }
-    },
-    enabled : !!accessToken,
-  });
-};

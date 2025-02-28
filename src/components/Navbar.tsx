@@ -53,7 +53,7 @@ const Bottombar = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   return (
-    <nav className="fixed bottom-0 left-0 w-full bg-white shadow-md flex justify-between items-center p-4 z-50 lg:hidden border-t border-gray-300">
+    <nav className="fixed bottom-0 left-0 w-full bg-white shadow-md flex justify-between items-center p-4 z-50 lg:hidden">
       <Link
         to="/"
         className="flex flex-col items-center text-sm text-gray-700 hover:text-blue-500"

@@ -1,6 +1,5 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { useAuthStore } from "../pages/auth/auth.store";
-
 // Create an Axios instance with default configs
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
