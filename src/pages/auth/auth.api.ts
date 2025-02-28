@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import apiClient, { handleApiError } from "../../api/index";
@@ -72,7 +72,7 @@ export const useLogout = () => {
     onSuccess: (response) => {
       removeAuth();
       toast.success(response?.notification || "Logged out successfully.");
-      navigate("/auth/login");
+      navigate("/");
     },
     onError: (error) => {
       toast.error(error?.message || "Logout failed. Please try again.");
@@ -122,5 +122,25 @@ export const useResetPassword = () => {
     onError: (error) => {
       toast.error(error?.message || "Password reset failed. Try again.");
     },
+  });
+};
+
+
+
+export const useGetProfile = () => {
+  const accessToken = useAuthStore((state) => state.accessToken);
+
+  return useQuery<User, Error>({
+    queryKey: ["profile"],
+    queryFn: async () => {
+      try {
+        const response = await apiClient.get("/auth/profile");
+        return response.data?.data;
+      } catch (error) {
+        handleApiError(error, "Failed to fetch profile data.");
+        throw error;
+      }
+    },
+    enabled : !!accessToken,
   });
 };

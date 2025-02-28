@@ -9,8 +9,32 @@ import {
   ResetPassword,
 } from "./pages/auth/auth.index";
 import { Home } from "./pages/main/index";
+import { useGetProfile } from "./pages/auth/auth.api";
+import LoadingScreen from "./components/LoadingScreen";
+import { useEffect } from "react";
+import { useAuthStore } from "./pages/auth/auth.store";
+import { Bookmarks } from "./pages/bookmarks/bookmarks.index";
+import NotFound from "./components/NotFound";
 
 const App: React.FC = () => {
+  const { data: profile, isLoading, isSuccess, isError } = useGetProfile();
+    const setUserProfile = useAuthStore((state) => state.setUserProfile);
+    const removeAuth = useAuthStore((state) => state.removeAuth)
+
+  useEffect(() => {
+    if (isSuccess && profile) {
+      setUserProfile(profile);
+    }
+  }, [isSuccess, profile, setUserProfile]);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
+  if(isError){
+    removeAuth();
+  }
+
   return (
     <>
       <ToastContainer />
@@ -27,11 +51,15 @@ const App: React.FC = () => {
           </Route>
         </Route>
 
+        {/* Public Routes (No authentication required) */}
+        <Route path="/" element={<Home />} />
+
         
         {/* Protected Routes (Requires authentication) */}
         <Route element={<ProtectedRoute />}>
-        <Route path="/" element={<Home />} />
+          <Route path="/bookmarks" element={<Bookmarks/>}/>
         </Route>
+        <Route path="*" element={<NotFound/>}/>
       </Routes>
     </>
   );

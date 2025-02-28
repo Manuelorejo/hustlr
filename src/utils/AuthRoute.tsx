@@ -1,10 +1,13 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import { useAuthStore } from "../pages/auth/auth.store";
 
 const AuthRoute: React.FC = () => {
-  const token = localStorage.getItem("accessToken");
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
 
-  if (token) {
+  console.log(isAuthenticated)
+
+  if (isAuthenticated) {
     return <Navigate to="/" replace />;
   }
 

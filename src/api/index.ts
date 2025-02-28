@@ -1,4 +1,5 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
+import { useAuthStore } from "../pages/auth/auth.store";
 
 // Create an Axios instance with default configs
 const apiClient = axios.create({
@@ -35,25 +36,13 @@ apiClient.interceptors.request.use(
 // Response Interceptor
 apiClient.interceptors.response.use(
   (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      try {
-        const { data } = await apiClient.post("/auth/refresh-token", {
-          refreshToken: localStorage.getItem("refreshToken"),
-        });
-
-        localStorage.setItem("accessToken", data.accessToken);
-        apiClient.defaults.headers["Authorization"] = `Bearer ${data.accessToken}`;
-
-        return apiClient(originalRequest);
-      } catch (refreshError) {
-        localStorage.removeItem("accessToken");
-        window.location.href = "/login";
-        return Promise.reject(refreshError);
-      }
+  (error) => {
+    if (error.response?.status === 401) {
+      // 🔹 Remove the access token and redirect to login
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("isAuthenticated")
+      useAuthStore.getState().removeAuth();
+      window.location.href = "/auth/login";
     }
     return Promise.reject(error);
   }
