@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { CiLogout, CiHome, CiBookmark, CiUser, CiSearch } from "react-icons/ci";
+import { CiLogout, CiHome, CiBookmark, CiUser, CiSearch, CiLogin } from "react-icons/ci";
 import { useLogout } from "../pages/auth/auth.api";
 import Logo from "./Logo";
 import { useAuthStore } from "../pages/auth/auth.store";
@@ -50,33 +50,52 @@ const Topbar = () => {
 
 const Bottombar = () => {
   const logout = useLogout();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   return (
-    <nav className="fixed bottom-0 left-0 w-full bg-white shadow-md flex justify-around items-center p-4 z-50 lg:hidden border-t border-gray-300">
+    <nav className="fixed bottom-0 left-0 w-full bg-white shadow-md flex justify-between items-center p-4 z-50 lg:hidden border-t border-gray-300">
       <Link
         to="/"
         className="flex flex-col items-center text-sm text-gray-700 hover:text-blue-500"
       >
-        <CiHome className="text-2xl" /> Home
+        <CiHome className="text-2xl" />
+      </Link>
+      <Link
+        to="/search"
+        className="flex flex-col items-center text-sm text-gray-700 hover:text-blue-500"
+      >
+        <CiSearch className="text-2xl" />
       </Link>
       <Link
         to="/bookmarks"
         className="flex flex-col items-center text-sm text-gray-700 hover:text-blue-500"
       >
-        <CiBookmark className="text-2xl" /> Bookmarks
+        <CiBookmark className="text-2xl" />
       </Link>
       <Link
         to="/profile"
         className="flex flex-col items-center text-sm text-gray-700 hover:text-blue-500"
       >
-        <CiUser className="text-2xl" /> Profile
+        <CiUser className="text-2xl" />
       </Link>
-      <button
-        className="flex flex-col items-center text-sm text-red-500 hover:text-red-700 cursor-pointer"
-        onClick={() => logout.mutate()}
-      >
-        <CiLogout className="text-2xl" /> Logout
-      </button>
+      {
+        isAuthenticated ? (
+          <button
+          className="flex flex-col items-center text-sm text-red-500 hover:text-red-700 cursor-pointer"
+          onClick={() => logout.mutate()}
+        >
+          <CiLogout className="text-2xl" />
+        </button>
+        ) : (
+          <Link
+          to="/auth/login"
+          className="flex flex-col items-center text-sm text-red-500 hover:text-red-700 cursor-pointer"
+          onClick={() => logout.mutate()}
+        >
+          <CiLogin className="text-2xl" />
+        </Link>
+        )
+      }
     </nav>
   );
 };
