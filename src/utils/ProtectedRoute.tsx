@@ -6,7 +6,7 @@ const ProtectedRoute: React.FC = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
 
   if (!isAuthenticated) {
-    return <Navigate to="/auth/login" replace />;
+    return <Navigate to={`/auth/login?redirectTo=${encodeURIComponent(location.pathname)}`} />;
   }
 
   return <Outlet />;

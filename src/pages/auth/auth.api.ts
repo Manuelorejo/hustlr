@@ -1,5 +1,5 @@
-import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import apiClient, { handleApiError } from "../../api/index";
 import { useAuthStore } from "./auth.store";
@@ -20,7 +20,9 @@ export const useSignUp = () => {
       }
     },
     onSuccess: (response) => {
-      toast.success(response?.notification || "Account created successfully! Please log in.");
+      toast.success(
+        response?.notification || "Account created successfully! Please log in."
+      );
       navigate("/auth/login");
     },
     onError: (error) => {
@@ -33,6 +35,7 @@ export const useSignUp = () => {
 export const useLogin = () => {
   const { setAuth } = useAuthStore();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const setProfile = useProfileStore((state) => state.setProfile);
 
   return useMutation({
@@ -47,9 +50,14 @@ export const useLogin = () => {
     },
     onSuccess: (response) => {
       setAuth(response?.data?.accessToken);
-      setProfile({firstName: response?.data?.firstName, lastName: response?.data?.lastName, email: response?.data?.email})
+      setProfile({
+        firstName: response?.data?.firstName,
+        lastName: response?.data?.lastName,
+        email: response?.data?.email,
+      });
       toast.success(response?.notification || "Successful Login");
-      navigate("/");
+      const redirectTo = searchParams.get("redirectTo") || "/";
+      navigate(redirectTo);
     },
     onError: (error) => {
       toast.error(error?.message || "Login failed. Please try again.");
@@ -61,6 +69,7 @@ export const useLogin = () => {
 export const useLogout = () => {
   const removeAuth = useAuthStore((state) => state.removeAuth);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async () => {
@@ -74,6 +83,9 @@ export const useLogout = () => {
     },
     onSuccess: (response) => {
       removeAuth();
+      queryClient.clear();
+      window.location.reload();
+      console.log("logout complete")
       toast.success(response?.notification || "Logged out successfully.");
       navigate("/");
     },
@@ -88,7 +100,9 @@ export const useRequestPasswordReset = () => {
   return useMutation({
     mutationFn: async (email: string) => {
       try {
-        const response = await apiClient.post("/auth/password-reset/request", { email });
+        const response = await apiClient.post("/auth/password-reset/request", {
+          email,
+        });
         return response.data;
       } catch (error) {
         handleApiError(error, "Failed to request password reset. Try again.");
@@ -96,10 +110,14 @@ export const useRequestPasswordReset = () => {
       }
     },
     onSuccess: (response) => {
-      toast.success(response?.notification || "Password reset email sent. Check your inbox.");
+      toast.success(
+        response?.notification || "Password reset email sent. Check your inbox."
+      );
     },
     onError: (error) => {
-      toast.error(error?.message || "Password reset request failed. Try again.");
+      toast.error(
+        error?.message || "Password reset request failed. Try again."
+      );
     },
   });
 };
@@ -109,9 +127,16 @@ export const useResetPassword = () => {
   const navigate = useNavigate();
 
   return useMutation({
-    mutationFn: async (payload: { token: string; password: string; confirmPassword: string }) => {
+    mutationFn: async (payload: {
+      token: string;
+      password: string;
+      confirmPassword: string;
+    }) => {
       try {
-        const response = await apiClient.post("/auth/password-reset/reset", payload);
+        const response = await apiClient.post(
+          "/auth/password-reset/reset",
+          payload
+        );
         return response.data;
       } catch (error) {
         handleApiError(error, "Failed to reset password. Try again.");
@@ -119,7 +144,10 @@ export const useResetPassword = () => {
       }
     },
     onSuccess: (response) => {
-      toast.success(response?.notification || "Password reset successful! You can now log in.");
+      toast.success(
+        response?.notification ||
+          "Password reset successful! You can now log in."
+      );
       navigate("/auth/login");
     },
     onError: (error) => {
@@ -127,4 +155,3 @@ export const useResetPassword = () => {
     },
   });
 };
-

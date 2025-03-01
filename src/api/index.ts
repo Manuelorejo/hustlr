@@ -3,6 +3,7 @@ import { useAuthStore } from "../pages/auth/auth.store";
 // Create an Axios instance with default configs
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
+  withCredentials: true,
 });
 
 // List of endpoints that should NOT have the Authorization header
