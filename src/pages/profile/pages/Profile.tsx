@@ -193,7 +193,7 @@ export function Profile() {
               <label className="label w-full lg:w-[15%]">
                 Current Password
               </label>
-              <div className="flex-1 relative bg-red-400">
+              <div className="flex-1 relative bg-red-400 w-full">
               <input
                 type={showCurrentPassword ? "text" : "password"}
                 {...passwordRegister("currentPassword", {
