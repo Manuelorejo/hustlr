@@ -193,7 +193,7 @@ export function Profile() {
               <label className="label w-full lg:w-[15%]">
                 Current Password
               </label>
-              <div className="flex-1 relative bg-red-400 w-full">
+              <div className="flex-1 relative w-full">
               <input
                 type={showCurrentPassword ? "text" : "password"}
                 {...passwordRegister("currentPassword", {
@@ -224,7 +224,7 @@ export function Profile() {
           <div className="space-y-2">
             <div className="flex flex-col lg:flex-row gap-5 items-center">
               <label className="label w-full lg:w-[15%]">New Password</label>
-              <div className="flex-1 relative">
+              <div className="flex-1 relative w-full">
                 <input
                   type={showNewPassword ? "text" : "password"}
                   {...passwordRegister("newPassword", {
@@ -257,7 +257,7 @@ export function Profile() {
               <label className="label w-full lg:w-[15%]">
                 Confirm New Password
               </label>
-              <div className="flex-1 relative">
+              <div className="flex-1 relative w-full">
                 <input
                   type={showConfirmNewPassword ? "text" : "password"}
                   {...passwordRegister("confirmNewPassword", {
