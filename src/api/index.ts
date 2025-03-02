@@ -53,6 +53,7 @@ export default apiClient;
 // Helper function to handle API errors
 export const handleApiError = (error: unknown, defaultMessage: string) => {
   if (error instanceof AxiosError) {
+    console.error("error")
     console.error(error.response?.data?.message || defaultMessage);
     throw new Error(error.response?.data?.notification || defaultMessage);
   }

@@ -43,6 +43,6 @@ input, textarea {
   }
 
   .button-primary {
-    @apply bg-primary text-white font-bold py-2 px-4 text-center flex items-center justify-center rounded-full transition w-full h-12 mt-4 cursor-pointer;
+    @apply bg-primary text-white text-sm lg:text-base font-bold py-2 px-4 text-center flex items-center justify-center rounded-full transition w-full h-12 mt-4 cursor-pointer;
   }
 }

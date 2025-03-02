@@ -85,7 +85,6 @@ export const useLogout = () => {
       removeAuth();
       queryClient.clear();
       window.location.reload();
-      console.log("logout complete")
       toast.success(response?.notification || "Logged out successfully.");
       navigate("/");
     },

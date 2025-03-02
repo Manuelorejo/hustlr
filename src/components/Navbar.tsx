@@ -6,10 +6,10 @@ import { useAuthStore } from "../pages/auth/auth.store";
 
 const Topbar = () => {
   const logout = useLogout();
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const accessToken = useAuthStore((state) => state.accessToken)
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-white shadow-md hidden lg:flex gap-10 items-center p-4 z-50 h-20">
+    <nav className="fixed top-0 left-0 w-full bg-white shadow-md hidden lg:flex gap-10 items-center py-4 px-10 z-50 h-20">
       <Link to="/" className="flex items-center gap-4 text-lg rounded">
         <Logo />
       </Link>
@@ -23,7 +23,7 @@ const Topbar = () => {
       <Link to="/profile" className="flex items-center gap-4 text-lg rounded">
         <CiUser className="text-2xl" />
       </Link>
-      {isAuthenticated ? (
+      {accessToken? (
         <button
           className="button-primary w-auto mt-0 font-normal"
           title="Logout"
@@ -50,7 +50,7 @@ const Topbar = () => {
 
 const Bottombar = () => {
   const logout = useLogout();
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const accessToken = useAuthStore((state) => state.accessToken)
 
   return (
     <nav className="fixed bottom-0 left-0 w-full bg-white shadow-md flex justify-between items-center p-4 z-50 lg:hidden">
@@ -79,7 +79,7 @@ const Bottombar = () => {
         <CiUser className="text-2xl" />
       </Link>
       {
-        isAuthenticated ? (
+        accessToken ? (
           <button
           className="flex flex-col items-center text-sm text-red-500 hover:text-red-700 cursor-pointer"
           onClick={() => logout.mutate()}
