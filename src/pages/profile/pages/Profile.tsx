@@ -99,7 +99,7 @@ export function Profile() {
 
           <form
             onSubmit={handleProfileSubmit(onSubmitProfile)}
-            className="space-y-5 lg:space-y-16 flex-1"
+            className="space-y-10 lg:space-y-16 flex-1"
           >
             <div className="space-y-2">
               <div className="flex flex-col lg:flex-row gap-5 items-center">
@@ -186,14 +186,14 @@ export function Profile() {
         <h2 className="text-xl">Security</h2>
         <form
           onSubmit={handlePasswordSubmit(onSubmitPasswordChange)}
-          className="space-y-5 lg:space-y-12"
+          className="space-y-10 lg:space-y-16"
         >
           <div className="space-y-2">
             <div className="flex flex-col lg:flex-row gap-5 items-center">
               <label className="label w-full lg:w-[15%]">
                 Current Password
               </label>
-              <div className="flex-1 relative">
+              <div className="flex-1 relative bg-red-400">
               <input
                 type={showCurrentPassword ? "text" : "password"}
                 {...passwordRegister("currentPassword", {
