@@ -25,6 +25,6 @@ export const useSearchJobs = (title: string, location: string) => {
       }
     },
     enabled: !!title,
-    staleTime: 5 * 60 * 1000,
+    staleTime: 60 * 60 * 1000,
   });
 };

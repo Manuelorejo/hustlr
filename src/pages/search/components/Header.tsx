@@ -99,7 +99,7 @@ const Header:React.FC<HeaderProps> = ({setSearchParams, isLoading, error}) => {
           </div>
 
           {/* Location Input */}
-          <div className="input-field bg-white h-12 rounded-full lg:flex-1 flex items-center overflow-hidden border">
+          <div className="input-field bg-transparent h-12 rounded-full lg:flex-1 flex items-center overflow-hidden border">
             <div className="h-full w-10 flex items-center justify-center">
               <CiLocationOn className="text-xl" />
             </div>
