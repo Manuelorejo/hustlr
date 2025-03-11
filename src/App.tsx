@@ -8,7 +8,6 @@ import {
   RequestPasswordReset,
   ResetPassword,
 } from "./pages/auth/auth.index";
-import { Home } from "./pages/main/index";
 import { useGetProfile } from "./pages/profile/profile.api";
 import LoadingScreen from "./components/LoadingScreen";
 import { useEffect } from "react";
@@ -17,7 +16,7 @@ import { useProfileStore } from "./pages/profile/profile.store";
 import { Bookmarks } from "./pages/bookmarks/bookmarks.index";
 import { Profile } from "./pages/profile/profile.index";
 import NotFound from "./components/NotFound";
-import { Search } from "./pages/search/search.index";
+import { Home } from "./pages/search/search.index";
 
 const App: React.FC = () => {
   const { data: profile, isLoading, isSuccess, isError } = useGetProfile();
@@ -56,8 +55,6 @@ const App: React.FC = () => {
 
         {/* Public Routes (No authentication required) */}
         <Route path="/" element={<Home />} />
-        <Route path = "/search" element={<Search/>}/>
-
         
         {/* Protected Routes (Requires authentication) */}
         <Route element={<ProtectedRoute />}>

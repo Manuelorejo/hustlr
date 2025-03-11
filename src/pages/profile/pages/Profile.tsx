@@ -84,7 +84,7 @@ export function Profile() {
 
   return (
     <MainLayout pageTitle="Profile">
-      <div className="space-y-10 my-10">
+      <div className="space-y-10 m-10">
         <h2 className="text-xl">User Information</h2>
         <div className="flex flex-col lg:flex-row gap-5 lg:gap-10">
           <div className="flex flex-col gap-5 lg:w-1/5 items-center text-center">
@@ -182,7 +182,7 @@ export function Profile() {
         </div>
       </div>
 
-      <div className="space-y-10 my-10">
+      <div className="space-y-10 m-10">
         <h2 className="text-xl">Security</h2>
         <form
           onSubmit={handlePasswordSubmit(onSubmitPasswordChange)}
@@ -306,7 +306,7 @@ export function Profile() {
         </form>
       </div>
 
-      <div className="space-y-10 my-10">
+      <div className="space-y-10 m-10">
         <p className="w-full lg:w-3/4">
           Deleting your account is permanent and cannot be undone. All your
           saved jobs and preferences will be lost. Please make sure you're

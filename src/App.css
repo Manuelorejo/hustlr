@@ -1,9 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Solway:wght@300;400;500;700;800&display=swap');
 @import "tailwindcss";
 
 body {
-  font-family: "Plus Jakarta Sans", serif;
+  font-family: "Solway", serif;
+  
 }
 
 * {
@@ -25,7 +27,17 @@ input, textarea {
   --color-accent: #60A5FA;
   --color-background: #F0F9FF;
   --color-text: #1E293B;
-  --font-roboto : "Roboto Serif", serif;
+
+  --animate-float: float 3s ease-in-out infinite;
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
 }
 
 @layer components {
@@ -44,5 +56,10 @@ input, textarea {
 
   .button-primary {
     @apply bg-primary text-white text-sm lg:text-base font-bold py-2 px-4 text-center flex items-center justify-center rounded-full transition w-full h-12 mt-4 cursor-pointer;
+  }
+
+  .glass-header {
+    @apply relative bg-white/10 backdrop-blur-lg border border-white/20 shadow-lg rounded-2xl w-full max-w-3xl mx-auto;
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.3), rgba(96, 165, 250, 0.2));
   }
 }
