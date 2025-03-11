@@ -1,5 +1,6 @@
 import { CiLocationOn } from "react-icons/ci";
 import { useForm } from "react-hook-form";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 import microsoft_logo from "../../../assets/icons/microsoft.svg";
 import spotify_logo from "../../../assets/icons/spotify.svg";
@@ -30,7 +31,13 @@ type SearchFormInputs = {
   location: string;
 };
 
-const Header = () => {
+type HeaderProps = {
+  setSearchParams: (params: SearchFormInputs) => void;
+  isLoading : boolean;
+  error: Error | null;
+};
+
+const Header:React.FC<HeaderProps> = ({setSearchParams, isLoading, error}) => {
   const {
     register,
     handleSubmit,
@@ -38,7 +45,7 @@ const Header = () => {
   } = useForm<SearchFormInputs>();
 
   const onSubmit = (data: SearchFormInputs) => {
-    console.log("Search data:", data);
+    setSearchParams(data);
   };
 
   return (
@@ -84,6 +91,11 @@ const Header = () => {
                 {errors.jobTitle.message}
               </p>
             )}
+            {
+              error && (
+                <p>{error.message}</p>
+              )
+            }
           </div>
 
           {/* Location Input */}
@@ -100,8 +112,10 @@ const Header = () => {
           </div>
 
           {/* Search Button */}
-          <button type="submit" className="button-primary mt-0 lg:w-32">
-            Search
+          <button type="submit" className="button-primary mt-0 lg:w-32" disabled={isLoading}>
+            {
+              isLoading ? <AiOutlineLoading3Quarters className="text-2xl animate-spin" /> : "Search"
+            }
           </button>
         </form>
       </div>
