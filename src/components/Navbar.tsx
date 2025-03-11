@@ -78,7 +78,7 @@ const Bottombar = () => {
       {
         accessToken ? (
           <button
-          className="flex flex-col items-center text-sm text-red-500 hover:text-red-700 cursor-pointer"
+          className="flex flex-col items-center text-sm cursor-pointer"
           onClick={() => logout.mutate()}
         >
           <CiLogout className="text-2xl" />
@@ -87,7 +87,7 @@ const Bottombar = () => {
         ) : (
           <Link
           to="/auth/login"
-          className="flex flex-col items-center text-sm text-red-500 hover:text-red-700 cursor-pointer"
+          className="flex flex-col items-center text-sm cursor-pointer"
           onClick={() => logout.mutate()}
         >
           <CiLogin className="text-2xl" />
